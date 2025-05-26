@@ -15,9 +15,9 @@ export default function NuevoUsuario() {
         { nombre, correo, password },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      alert("Usuario creado con éxito");
+      alert("Usuario creado con éxito!");
     } catch (err) {
-      alert("Error al crear usuario");
+      alert("Error al crear usuario!");
       console.error(err);
     }
   };
