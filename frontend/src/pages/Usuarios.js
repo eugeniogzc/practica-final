@@ -1,17 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
 export default function Usuarios() {
   const [usuarios, setUsuarios] = useState([]);
   const [ediciones, setEdiciones] = useState({});
-
   const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    cargarUsuarios();
-  }, []);
-
-  const cargarUsuarios = async () => {
+  const cargarUsuarios = useCallback(async () => {
     try {
       const res = await axios.get("http://localhost:3001/api/usuarios", {
         headers: { Authorization: `Bearer ${token}` }
@@ -21,7 +16,11 @@ export default function Usuarios() {
       console.error("❌ Error al cargar usuarios:", err);
       alert("No autorizado o error al cargar usuarios");
     }
-  };
+  }, [token]);
+
+  useEffect(() => {
+    cargarUsuarios();
+  }, [cargarUsuarios]);
 
   const eliminarUsuario = async (id) => {
     try {
