@@ -6,6 +6,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 const app = express();
 
+const { swaggerUi, swaggerSpec } = require("./swagger");
+
 app.use(cors({ origin: process.env.ALLOWED_ORIGINS.split(",") }));
 app.use(express.json());
 
@@ -28,11 +30,10 @@ sql.connect(config)
 
     app.set("sql", pool);
 
-    // Importar rutas
     const authRoutes = require("./routes/authRoutes");
     app.use("/api", authRoutes);
 
-    // Iniciar servidor
+    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
     app.listen(3001, () => console.log("🚀 Backend corriendo en http://localhost:3001"));
   })
-  .catch(err => console.error("❌ Error de conexión SQL:", err));

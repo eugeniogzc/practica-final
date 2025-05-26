@@ -1,7 +1,31 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const sql = require("mssql"); // <- 👈 IMPORTANTE
+const sql = require("mssql");
 
+/**
+ * @swagger
+ * /api/login:
+ *   post:
+ *     summary: Iniciar sesión
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               correo:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Token generado exitosamente
+ *       401:
+ *         description: Credenciales incorrectas
+ *       500:
+ *         description: Error en el servidor
+ */
 exports.login = async (req, res) => {
   const { correo, password } = req.body;
   const pool = req.app.get("sql");
@@ -26,10 +50,22 @@ exports.login = async (req, res) => {
   }
 };
 
+/**
+ * @swagger
+ * /api/usuarios:
+ *   get:
+ *     summary: Obtener todos los usuarios
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios
+ *       500:
+ *         description: Error al obtener usuarios
+ */
 exports.getUsuarios = async (req, res) => {
   const pool = req.app.get("sql");
   try {
-    console.log("Usuario autenticado:", req.user);
     const result = await pool
       .request()
       .query("SELECT id, nombre FROM Eugenio");
@@ -41,6 +77,34 @@ exports.getUsuarios = async (req, res) => {
   }
 };
 
+/**
+ * @swagger
+ * /api/usuarios:
+ *   post:
+ *     summary: Crear un nuevo usuario
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nombre:
+ *                 type: string
+ *               correo:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Usuario creado exitosamente
+ *       400:
+ *         description: El usuario ya existe
+ *       500:
+ *         description: Error en el servidor
+ */
 exports.crearUsuario = async (req, res) => {
   const { nombre, correo, password } = req.body;
   const pool = req.app.get("sql");
@@ -71,25 +135,71 @@ exports.crearUsuario = async (req, res) => {
   }
 };
 
+/**
+ * @swagger
+ * /api/usuarios/{id}:
+ *   put:
+ *     summary: Actualizar nombre de usuario
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nombre:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Usuario actualizado
+ *       500:
+ *         description: Error al actualizar
+ */
 exports.updateUsuario = async (req, res) => {
-    const { id } = req.params;
-    const { nombre } = req.body;
-    const pool = req.app.get("sql");
-  
-    try {
-      await pool.request()
-        .input("id", id)
-        .input("nombre", nombre)
-        .query("UPDATE Eugenio SET nombre = @nombre WHERE id = @id");
-  
-      res.json({ mensaje: "Usuario actualizado" });
-    } catch (err) {
-      console.error("❌ Error al actualizar usuario:", err);
-      res.status(500).json({ mensaje: "Error al actualizar", error: err.message });
-    }
-  };
-  
+  const { id } = req.params;
+  const { nombre } = req.body;
+  const pool = req.app.get("sql");
 
+  try {
+    await pool.request()
+      .input("id", id)
+      .input("nombre", nombre)
+      .query("UPDATE Eugenio SET nombre = @nombre WHERE id = @id");
+
+    res.json({ mensaje: "Usuario actualizado" });
+  } catch (err) {
+    console.error("❌ Error al actualizar usuario:", err);
+    res.status(500).json({ mensaje: "Error al actualizar", error: err.message });
+  }
+};
+
+/**
+ * @swagger
+ * /api/usuarios/{id}:
+ *   delete:
+ *     summary: Eliminar usuario por ID
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Usuario eliminado
+ *       500:
+ *         description: Error al eliminar
+ */
 exports.deleteUsuario = async (req, res) => {
   const { id } = req.params;
   const pool = req.app.get("sql");
