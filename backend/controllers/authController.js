@@ -45,7 +45,7 @@ exports.login = async (req, res) => {
     const token = jwt.sign({ id: usuario.id, correo: usuario.correo }, process.env.JWT_SECRET, { expiresIn: "2h" });
     res.json({ token });
   } catch (err) {
-    console.error("🔥 Error en login:", err);
+    console.error("Error en login:", err);
     res.status(500).json({ mensaje: "Error en login", error: err.message });
   }
 };
@@ -72,7 +72,7 @@ exports.getUsuarios = async (req, res) => {
 
     res.json(result.recordset);
   } catch (err) {
-    console.error("❌ Error al obtener usuarios:", err.message);
+    console.error("Error al obtener usuarios:", err.message);
     res.status(500).json({ mensaje: "Error al obtener usuarios", error: err.message });
   }
 };
@@ -130,7 +130,7 @@ exports.crearUsuario = async (req, res) => {
 
     res.status(201).json({ mensaje: "Usuario creado exitosamente" });
   } catch (err) {
-    console.error("❌ Error al crear usuario:", err);
+    console.error("Error al crear usuario:", err);
     res.status(500).json({ mensaje: "Error al crear usuario", error: err.message });
   }
 };
@@ -176,7 +176,7 @@ exports.updateUsuario = async (req, res) => {
 
     res.json({ mensaje: "Usuario actualizado" });
   } catch (err) {
-    console.error("❌ Error al actualizar usuario:", err);
+    console.error("Error al actualizar usuario:", err);
     res.status(500).json({ mensaje: "Error al actualizar", error: err.message });
   }
 };
@@ -212,7 +212,7 @@ exports.deleteUsuario = async (req, res) => {
 
     res.json({ mensaje: "Usuario eliminado" });
   } catch (err) {
-    console.error("❌ Error al eliminar usuario:", err);
+    console.error("Error al eliminar usuario:", err);
     res.status(500).json({ mensaje: "Error al eliminar", error: err.message });
   }
 };

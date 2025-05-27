@@ -13,7 +13,7 @@ export default function Usuarios() {
       });
       setUsuarios(res.data);
     } catch (err) {
-      console.error("❌ Error al cargar usuarios:", err);
+      console.error("Error al cargar usuarios:", err);
       alert("No autorizado o error al cargar usuarios");
     }
   }, [token]);
@@ -27,10 +27,10 @@ export default function Usuarios() {
       await axios.delete(`http://localhost:3001/api/usuarios/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      alert("✅ Usuario eliminado");
+      alert("Usuario eliminado");
       cargarUsuarios();
     } catch (err) {
-      console.error("❌ Error al eliminar:", err);
+      console.error("Error al eliminar:", err);
       alert("Error al eliminar usuario");
     }
   };
@@ -45,11 +45,11 @@ export default function Usuarios() {
         { nombre: nuevoNombre },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      alert("✅ Usuario actualizado");
+      alert("Usuario actualizado");
       setEdiciones({ ...ediciones, [id]: "" });
       cargarUsuarios();
     } catch (err) {
-      console.error("❌ Error al actualizar:", err);
+      console.error("Error al actualizar:", err);
       alert("Error al actualizar usuario");
     }
   };
