@@ -25,4 +25,4 @@ jobs:
 
       - name: Ejecutar ESLint
         working-directory: ./frontend
-        run: npx eslint . --ext .js,.jsx
+        run: npx eslint .
