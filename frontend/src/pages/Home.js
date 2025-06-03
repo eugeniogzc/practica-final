@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [usuarios, setUsuarios] = useState([]);
   const [error, setError] = useState("");
+  const navigate = useNavigate(); // 🔁 Redireccionamiento
 
   useEffect(() => {
     const fetchUsuarios = async () => {
@@ -24,9 +26,15 @@ function Home() {
     fetchUsuarios();
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // elimina token
+    navigate("/login"); // redirige a login (ajusta si tu ruta es diferente)
+  };
+
   return (
     <div>
       <h2>Usuarios registrados</h2>
+      <button onClick={handleLogout}>Cerrar sesión</button>
       {error && <p>{error}</p>}
       <ul>
         {usuarios.map(u => (
