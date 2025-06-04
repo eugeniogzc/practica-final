@@ -6,7 +6,7 @@ import Usuarios from "./pages/Usuarios";
 
 function App() {
   return (
-    <Router>
+    <Router basename="/practica-final">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
