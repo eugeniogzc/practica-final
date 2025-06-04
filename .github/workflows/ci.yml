@@ -1,0 +1,122 @@
+name: CI Pipeline - Build, Lint & Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build_backend:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Instalar dependencias backend
+        working-directory: ./backend
+        run: npm install
+
+      - name: Build backend
+        working-directory: ./backend
+        run: echo "Backend no tiene build explícito. Skipping..."
+
+  lint_backend:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Instalar dependencias backend
+        working-directory: ./backend
+        run: npm install
+
+      - name: Lint backend
+        working-directory: ./backend
+        run: npx eslint .
+
+  test_backend:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Instalar dependencias backend
+        working-directory: ./backend
+        run: npm install
+
+      - name: Ejecutar pruebas backend
+        working-directory: ./backend
+        run: npm test
+
+  build_frontend:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Instalar dependencias frontend
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: npm run build
+
+  lint_frontend:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Instalar dependencias frontend
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Lint frontend
+        working-directory: ./frontend
+        run: npx eslint .
+
+  test_frontend:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Instalar dependencias frontend
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Ejecutar pruebas frontend
+        working-directory: ./frontend
+        run: npm test -- --watchAll=false
