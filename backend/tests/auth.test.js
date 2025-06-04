@@ -4,7 +4,6 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
-// ✅ Simulación completa de la conexión pool.request()
 app.set("sql", {
   request: () => ({
     input: () => ({
