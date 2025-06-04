@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/practica-final/static/css/main.e6c13ad2.css",
+    "main.js": "/practica-final/static/js/main.75931410.js",
+    "index.html": "/practica-final/index.html",
+    "main.e6c13ad2.css.map": "/practica-final/static/css/main.e6c13ad2.css.map",
+    "main.75931410.js.map": "/practica-final/static/js/main.75931410.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.75931410.js"
+  ]
+}
