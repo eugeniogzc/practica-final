@@ -39,7 +39,7 @@ const config = {
 // Conexión a SQL Server y lanzamiento del servidor
 sql.connect(config)
   .then(pool => {
-    console.log("✅ Conectado a SQL Server");
+    console.log("✅ Conectado a SQL Server!");
 
     app.set("sql", pool);
 
